@@ -1,0 +1,14 @@
+<% layout('layouts') %>
+<div><span>Hello</span></div>
+<ul>
+    <% if(show) { %>
+        <span>IF show</span>
+    <% } else { %>
+        <span>IF false</span>
+    <% } %>
+    <li><%= title %></li><!-- =會把傳入內容轉成字符串 -->
+    <li><%- boss %></li><!-- -會把傳入內容轉成網頁格式 -->
+    <% for(var i=0;course.length > i ;i++) { %>
+        <li><%- course[i] %></li>
+    <% } %>
+</ul>

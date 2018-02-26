@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="title"></h1>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyApYV9HeGiGzVPEWURWWk2-QzXwbdTKbsI",
+            authDomain: "project-62893.firebaseapp.com",
+            databaseURL: "https://project-62893.firebaseio.com",
+            projectId: "project-62893",
+            storageBucket: "project-62893.appspot.com",
+            messagingSenderId: "934151963987"
+        };
+        firebase.initializeApp(config);
+        // firebase.database().ref('myName').set('mark')
+        var myName=firebase.database().ref('myName');
+        // once 讀取一次資料庫的資料、on 隨時監聽
+        // 快照
+        myName.once('value',function(snapshot){
+            var str=snapshot.val()
+            document.getElementById('title').textContent=str
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todolist</title>
+</head>
+
+<body>
+    <input id="txt" type="text" placeholder="請輸入內容">
+    <input type="button" id="send" value="送出">
+    <ul id="list">
+
+    </ul>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyApYV9HeGiGzVPEWURWWk2-QzXwbdTKbsI",
+            authDomain: "project-62893.firebaseapp.com",
+            databaseURL: "https://project-62893.firebaseio.com",
+            projectId: "project-62893",
+            storageBucket: "project-62893.appspot.com",
+            messagingSenderId: "934151963987"
+        };
+        firebase.initializeApp(config);
+        // dom
+        var txt=document.getElementById('txt')
+        var send=document.getElementById('send')
+        var list=document.getElementById('list')
+        // todos
+        var todos=firebase.database().ref('todos')
+        // 按送出按鈕，可寫入資料庫
+        send.addEventListener('click',function(e){
+            console.log(txt.value)
+            todos.push({content:txt.value})
+            txt.value='';
+        })
+        // 顯示內容出來
+        todos.on('value',function(snapshot){
+            var str='';
+            var data=snapshot.val();
+            for(var item in data){
+                str+='<li data-key="'+item+'">'+data[item].content+'</li>';
+            }
+            list.innerHTML=str;
+        })
+        // remove()
+        list.addEventListener('click',function(e){
+            if(e.target.nodeName="LI"){
+                var key=e.target.dataset.key;
+                todos.child(key).remove();
+            }
+        })
+    </script>
+</body>
+
+</html>

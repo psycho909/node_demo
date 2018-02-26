@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>時間篇</title>
+</head>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyApYV9HeGiGzVPEWURWWk2-QzXwbdTKbsI",
+            authDomain: "project-62893.firebaseapp.com",
+            databaseURL: "https://project-62893.firebaseio.com",
+            projectId: "project-62893",
+            storageBucket: "project-62893.appspot.com",
+            messagingSenderId: "934151963987"
+        };
+        firebase.initializeApp(config);
+        // 排序
+        var people={
+            'bob':{
+                'height':'dalse',
+                'old':false,
+                'weight':4400
+            },
+            'casper':{
+                'height':3,
+                'old':9,
+                'weight':3600,
+                "mail":"casper@gmail.com"
+            },
+            'mike':{
+                'height':4,
+                'old':12.5,
+                'weight':5000,
+                "mail":"mike@gmail.com"
+            },
+            'john':{
+                'height':'dalse',
+                'old':9,
+                'weight':2500
+            },
+            'boss':{
+                'length':3,
+            },
+            'frank':{
+                height:{'aaa':1},
+            },
+        }
+        firebase.database().ref('people').set(people)
+        var peopleRef=firebase.database().ref('people')
+        // 路徑 >> 排序('屬性') >> 過濾 >> 限制筆數 >> 讀取 >> forEach 依序撈出資料
+        // startAt() 多少以上
+        // endAt() 多少以下
+        // equalTo() === 條件，可以用來找特定的資料
+        // limitToFirst(1) 從開頭前幾筆
+        // limitToLast(1) 從後面開始找資料
+        peopleRef.orderByChild('weight').startAt(2000).limitToFirst(1).once('value',function(snapshot){
+            snapshot.forEach(function(item){
+                console.log(item.val())
+            })
+            // console.log(snapshot.val())
+        })
+    </script>
+</body>
+
+</html>

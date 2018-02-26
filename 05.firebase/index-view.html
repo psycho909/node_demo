@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>即時瀏覽firebase</title>
+</head>
+
+<body>
+    <pre id="content"></pre>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyApYV9HeGiGzVPEWURWWk2-QzXwbdTKbsI",
+            authDomain: "project-62893.firebaseapp.com",
+            databaseURL: "https://project-62893.firebaseio.com",
+            projectId: "project-62893",
+            storageBucket: "project-62893.appspot.com",
+            messagingSenderId: "934151963987"
+        };
+        firebase.initializeApp(config);
+        var ref=firebase.database().ref();
+        ref.on('value',function(snapshot){
+            var path=document.getElementById('content');
+            path.textContent=JSON.stringify(snapshot.val(),null,3)
+        })
+    </script>
+</body>
+
+</html>
