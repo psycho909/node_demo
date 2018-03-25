@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="path"></ul>
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAH7jDIBlph-_6RgCuGVaVOtnx2HIByufM",
+            authDomain: "project-3efe5.firebaseapp.com",
+            databaseURL: "https://project-3efe5.firebaseio.com",
+            projectId: "project-3efe5",
+            storageBucket: "project-3efe5.appspot.com",
+            messagingSenderId: "694575396219"
+        };
+        firebase.initializeApp(config);
+
+        var people = {
+            "mike": {
+                "length": 12.5,
+                "weight": 5000
+            },
+            "casper": {
+                "length": 9,
+                "weight": 4500
+            },
+            "bob": {
+                "length": false,
+                "weight": 3500
+            },
+            "john": {
+                "length": 9,
+                "weight": 3500
+            },
+            "josh": {
+                "length": 9,
+                "weight": 2500
+            }
+        };
+
+        // firebase.database().ref('people').set(people)
+        var peopleRef = firebase.database().ref('people')
+        peopleRef.orderByChild('weight').once('value', (snapshot) => {
+            var str='';
+            var data=[];
+            snapshot.forEach(function (item) {
+                data.push(item.val())
+            })
+            //data.reverse()
+            console.log(data)
+            for(var item in data){
+                str+=`<li>${data[item].weight}</li>`
+            }
+            document.getElementById('path').innerHTML=str;
+        })
+    </script>
+</body>
+
+</html>

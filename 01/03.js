@@ -1,5 +1,7 @@
 var path=require('path');
 
+var a=1;
+
 // 抓目錄路徑
 console.log(path.dirname('/xx/yy/zz.js'))
 
