@@ -1,0 +1,11 @@
+<% layout('./layouts') %>
+<h1><%= title %></h1>
+<span>uswqeqwe</span>
+<% if(show) { %>
+    <p>is show</p>
+<% }else{ %>
+    <p>not show</p>
+<% } %>
+<% for(var i=0;i<color.length;i++) { %>
+    <div><%- color[i] %></div>
+<% } %>

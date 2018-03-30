@@ -4,13 +4,12 @@ var engine = require('ejs-locals');
 var bodyParser = require('body-parser');
 var admin = require("firebase-admin");
 
-var serviceAccount = require("./project-3efe5-firebase-adminsdk-qtxqb-566b84bc32.json");
+var serviceAccount = require("./node-todolist-11347-firebase-adminsdk-od3qz-fd19e0377a.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://project-3efe5.firebaseio.com"
+    databaseURL: "https://node-todolist-11347.firebaseio.com"
 });
-
 var fireData=admin.database();
 
 app.engine('ejs',engine);
@@ -25,49 +24,48 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 //路由
 app.get('/',function(req,res){
-    fireData.ref('todos').once('value',function(snapshot){
+    fireData.ref('todos').once('value',(snapshot)=>{
         var data=snapshot.val();
-        res.render('index',{"todolist":data})
+        var title=data.title;
+        res.render('index',{
+            todolist:data
+        })
     })
 })
 
-// 新增邏輯
-app.post('/addTodo',function(req,res){
+app.post('/addTodo',(req,res)=>{
     var content=req.body.content;
     var contentRef=fireData.ref('todos').push();
     contentRef.set({"content":content})
-    .then(function(){
-        fireData.ref('todos').once('value',function(snapshot){
-            res.send({
-                "success":true,
-                "result":snapshot.val(),
-                "message":'資料讀取成功'
-            });
+    .then(()=>{
+        fireData.ref('todos').once('value',(snapshot)=>{
+            res.send(
+                {
+                    success:true,
+                    result:snapshot.val(),
+                    message:'資料讀取成功'
+                }
+            )
         })
     })
 })
 
-// 刪除邏輯
-app.post('/removeTodo',function(req,res){
+
+app.post('/removeTodo',(req,res)=>{
     var _id=req.body.id;
     fireData.ref('todos').child(_id).remove()
-    .then(function(){
-        fireData.ref('todos').once('value',function(snapshot){
-            res.send({
-                "success":true,
-                "result":snapshot.val(),
-                "message":'資料刪除成功'
-            });
+    .then(()=>{
+        fireData.ref('todos').once('value',(snapshot)=>{
+            res.send(
+                {
+                    success:true,
+                    result:snapshot.val(),
+                    message:'資料刪除成功'
+                }
+            )
         })
     })
 })
-// fireData.ref('todos').set({'title':'213123213'})
-// .then(function(){
-//     fireData.ref('todos').once('value',function(snapshot){
-//         console.log(snapshot.val())
-//     })
-// })
-
 // 監聽 port
 var port = process.env.PORT || 3000;
 app.listen(port);

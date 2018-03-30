@@ -19,6 +19,18 @@ router.get('/', function(req, res, next) {
     email:req.session.email 
   });
 });
+
+router.get('/logout',(req,res)=>{
+  req.session.destroy((err)=>{
+    if(err){
+      res.json({ret_code: 2, ret_msg: '退出登录失败'});
+      return;
+    }
+    res.clearCookie('key')
+    res.redirect('/')
+  })
+  
+})
 router.post('/',function(req,res){
   req.session.username=req.body.username;
   req.session.email=req.body.email;

@@ -2,36 +2,31 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 var session=require('express-session');
-var index = require('./routes/index');
-var users = require('./routes/users');
-
+var flash=require('connect-flash');
+var bodyParser = require('body-parser');
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// session
+app.use(express.static("public"));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// session
 app.use(session({
-  secret:'key',
+  secret:'mysupercat',
   resave:true,
   saveUninitialized:true
 }))
+app.use(flash());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+// routes
+var contact = require('./routes/contact');
+app.use('/contact', contact);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,5 +45,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

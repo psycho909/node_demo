@@ -11,10 +11,8 @@
     <input type="text" id="content" name="content">
     <input type="submit" id="send" name="send">
     <ul id="list">
-        <% for(var item in todolist) { %>
-            <li><%= todolist[item].content %> 
-                <input type="button" value="del" data-id="<%= item %>">
-            </li>
+        <% for(item in todolist) { %>
+            <li><%- todolist[item].content %> <input type="button" data-id="<%- item %>" value="del"></li>
         <% } %>
     </ul>
     <script src="/js/all.js"></script>
